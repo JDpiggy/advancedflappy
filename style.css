@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@400;700&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1e272e; /* Darker, sophisticated background */
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    overflow: hidden; /* Prevent scrollbars if content slightly overflows viewport */
+}
+
+.game-container {
+    position: relative;
+    border: 4px solid #303952; /* Slightly different border */
+    box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    border-radius: 8px; /* More rounded container */
+}
+
+canvas {
+    display: block;
+}
+
+#ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+#score, #highScore {
+    position: absolute;
+    font-size: 48px;
+    padding: 20px 25px;
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.6);
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1.5px;
+    color: #fbc531; /* Gold-ish color for score */
+}
+
+#score { top: 25px; left: 25px; }
+#highScore { top: 25px; right: 25px; }
+
+#coinDisplayContainer {
+    position: absolute;
+    top: 140px;
+    left: 25px;
+    font-size: 28px;
+    padding: 10px 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1px;
+    color: #feca57;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 8px;
+}
+
+#fuelBarContainer {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    font-size: 24px;
+    background-color: rgba(0,0,0,0.5);
+    padding: 12px 18px;
+    border-radius: 10px;
+}
+
+#fuelBar {
+    width: 220px;
+    height: 24px;
+    background-color: #e17055;
+    border: 2px solid #0d0d0d;
+    border-radius: 6px;
+    margin-top: 6px;
+    transition: width 0.2s ease-out, background-color 0.3s ease;
+}
+
+
+#startScreen, #gameOverScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(44, 62, 80, 0.92);
+    padding: 30px 40px;
+    border-radius: 20px;
+    text-align: center;
+    pointer-events: all;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    min-width: 500px;
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#startScreen h1, #gameOverScreen h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #ff7f50;
+    font-size: 80px;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 3px;
+    line-height: 1;
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.25);
+}
+
+#startScreen p, #gameOverScreen p {
+    margin-bottom: 20px;
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+/* General styling for main action buttons on start/gameover */
+#startScreen button, 
+#gameOverScreen button#restartButton {
+    padding: 15px 30px;
+    font-size: 20px;
+    background-image: linear-gradient(to bottom, #55efc4, #00b894);
+    color: #1e272e;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 12px 8px;
+    transition: all 0.2s ease;
+    pointer-events: all;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    font-family: 'Roboto', sans-serif;
+}
+
+#startScreen button:hover, 
+#gameOverScreen button#restartButton:hover {
+    background-image: linear-gradient(to bottom, #69f2d0, #00c9a2);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+#startScreen button:active, 
+#gameOverScreen button#restartButton:active {
+    transform: translateY(0px) scale(0.98);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+}
+
+/* Special button styles for Shop, Leaderboard, Settings on Start Screen */
+#startScreen #shopButton,
+#startScreen #leaderboardButton,
+#startScreen #settingsButton {
+    background-image: linear-gradient(to bottom, #a29bfe, #6c5ce7); /* Purple theme */
+    margin-top: 15px; /* Adjusted from 20px */
+}
+#startScreen #shopButton:hover,
+#startScreen #leaderboardButton:hover,
+#startScreen #settingsButton:hover {
+    background-image: linear-gradient(to bottom, #b1a9ff, #7b6cfb);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+
+/* Game Over Screen Specifics */
+#gameOverScreen .score-info-box {
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 20px 30px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    min-width: 250px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+#gameOverScreen .score-info-box p { margin: 8px 0; font-size: 22px; line-height: 1.5; color: #dfe6e9; }
+#gameOverScreen .score-info-box p span#coinsEarned,
+#gameOverScreen .score-info-box p span#finalScore { font-weight: bold; }
+#gameOverScreen .score-info-box p span#coinsEarned { color: #feca57; }
+#gameOverScreen .score-info-box p#newHighScoreTextGameOver { color: #fdcb6e; font-family: 'Bangers', cursive; font-size: 28px; letter-spacing: 1px; margin-top: 15px; display: none; }
+
+/* --- Character Shop Screen Styles --- */
+#shopScreen {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 90%; max-width: 1000px; height: 85vh; max-height: 650px;
+    background-color: rgba(30, 39, 46, 0.95);
+    padding: 25px; border-radius: 20px; text-align: center;
+    pointer-events: all; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    display: flex; flex-direction: column; color: white;
+}
+#shopHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.2); }
+#shopHeader h2 { font-size: 60px; color: #ff9f43; font-family: 'Bangers', cursive; margin: 0; text-shadow: 3px 3px 0px rgba(0,0,0,0.2); }
+#shopCoinDisplay { font-size: 24px; font-family: 'Bangers', cursive; color: #feca57; background-color: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 8px; }
+#shopContent { display: flex; flex-grow: 1; overflow: hidden; gap: 20px; }
+#shopPanelLeft { flex: 1; padding: 15px; background-color: rgba(0,0,0,0.2); border-radius: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+#shopPanelRight { flex: 1.5; padding: 20px; background-color: rgba(0,0,0,0.15); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#shopCharacterPreviewImage { max-width: 80%; max-height: 250px; height: auto; object-fit: contain; margin-bottom: 20px; background-color: rgba(0,0,0,0.1); border-radius: 10px; padding: 10px; border: 1px solid rgba(255,255,255,0.1); }
+#shopCharacterPreviewImage.not-ready { background-color: #444; min-height: 200px; display: flex; align-items: center; justify-content: center; color: #aaa; font-style: italic; }
+#shopCharacterPreviewImage.not-ready::after { content: "Loading..."; }
+#shopCharacterName { font-size: 32px; font-family: 'Bangers', cursive; color: #fff; margin-bottom: 10px; }
+#shopCharacterPriceStatus { font-size: 20px; color: #feca57; margin-bottom: 15px; }
+#shopCharacterPriceStatus.owned { color: #55efc4; }
+#shopPanelLeft .character-slot { background-color: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; transition: background-color 0.2s ease, border-color 0.2s ease; cursor: pointer; }
+#shopPanelLeft .character-slot:hover { background-color: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); }
+#shopPanelLeft .character-slot.selected-in-shop { border-color: #55efc4; background-color: rgba(85, 239, 196, 0.15); }
+#shopPanelLeft .character-slot img { width: 60px; height: 60px; object-fit: contain; background-color: rgba(0,0,0,0.2); border-radius: 5px; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+#shopPanelLeft .character-slot img.not-ready { background-color: #333; }
+.char-info-shop { flex-grow: 1; text-align: left; min-width: 0; overflow: hidden; }
+#shopPanelLeft .character-slot .char-name { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#shopPanelLeft .character-slot .char-price,
+#shopPanelLeft .character-slot .char-status { font-size: 13px; color: #feca57; margin-bottom: 5px; }
+#shopPanelLeft .character-slot .char-status { color: #55efc4; }
+.shop-button-container { margin-left: auto; flex-shrink: 0; }
+#shopPanelLeft .character-slot button { padding: 7px 12px; font-size: 13px; background-image: linear-gradient(to bottom, #74b9ff, #0984e3); color: white; border:none; border-radius: 6px; white-space: nowrap; cursor: pointer; transition: background-image 0.2s ease; }
+#shopPanelLeft .character-slot button:hover:not(:disabled) { background-image: linear-gradient(to bottom, #85c4ff, #0a8eff); }
+#shopPanelLeft .character-slot button:disabled { background-image: linear-gradient(to bottom, #999, #777); cursor: not-allowed; opacity: 0.7; }
+
+/* Generic "Back to Menu" button style for all screens that use it */
+.back-to-menu-button { /* NEW Generic Class */
+    padding: 15px 30px;
+    font-size: 18px;
+    width: fit-content;
+    align-self: center; /* Works if parent is flex and column direction */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.2s ease;
+    margin-top: auto; /* Pushes to bottom in flex container */
+    background-image: linear-gradient(to bottom, #ff7675, #d63031); /* Red theme */
+}
+.back-to-menu-button:hover {
+    background-image: linear-gradient(to bottom, #ff8b8a, #e04443);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+/* Apply the generic style to all specific back buttons */
+#shopScreen #backToMenuButtonFromShop,
+#settingsScreen #backToMenuButtonFromSettings,
+#leaderboardScreen #backToMenuButtonFromLeaderboard {
+    /* They will inherit from .back-to-menu-button if you add this class to them in HTML */
+    /* OR, you can keep them separate like this if you prefer ID targeting */
+    padding: 15px 30px;
+    font-size: 18px;
+    width: fit-content;
+    align-self: center;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.2s ease;
+    margin-top: auto; /* This makes it go to the bottom of the flex container */
+    background-image: linear-gradient(to bottom, #ff7675, #d63031);
+}
+#shopScreen #backToMenuButtonFromShop:hover,
+#settingsScreen #backToMenuButtonFromSettings:hover,
+#leaderboardScreen #backToMenuButtonFromLeaderboard:hover {
+    background-image: linear-gradient(to bottom, #ff8b8a, #e04443);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+
+/* --- Settings Screen Styles --- */
+#settingsScreen {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background-color: rgba(44, 62, 80, 0.95);
+    padding: 25px 35px; border-radius: 20px; text-align: center;
+    pointer-events: all; box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    min-width: 500px; max-width: 700px; width: 90%;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 20px; color: white; max-height: 90vh; overflow-y: auto;
+}
+#settingsScreen h2 { margin-top: 0; margin-bottom: 20px; color: #ff9f43; font-size: 60px; font-family: 'Bangers', cursive; letter-spacing: 2px; }
+.settings-section { background-color: rgba(0,0,0,0.2); padding: 15px 20px; border-radius: 10px; width: 90%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.settings-section h3 { margin-top: 0; margin-bottom: 10px; font-family: 'Bangers', cursive; color: #feca57; font-size: 28px; }
+.settings-section label { font-size: 18px; margin-right: 10px; margin-bottom: 5px; width: 100%; text-align: left; padding-left: 5%;}
+.settings-section input[type="text"] {
+    padding: 10px 15px; font-size: 16px; border-radius: 6px;
+    border: 1px solid #555; background-color: #dfe6e9; color: #2d3436;
+    width: 90%; /* Relative to parent .settings-section */ box-sizing: border-box; margin-bottom: 10px;
+}
+.settings-section input[type="range"] { width: 90%; cursor: pointer; margin-bottom: 10px;}
+.settings-section button {
+    padding: 10px 20px; font-size: 16px;
+    background-image: linear-gradient(to bottom, #74b9ff, #0984e3); /* Blue theme for save/action */
+    color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+}
+.settings-section button:hover { background-image: linear-gradient(to bottom, #85c4ff, #0a8eff); }
+#displayNameStatus { font-size: 14px; min-height: 1.2em; color: #55efc4;}
+#displayNameStatus.error { color: #ff7675; }
+
+
+/* Redeem Code Section inside Settings */
+#settingsScreen #redeemCodeSection {
+    width: 90%; /* Consistent with other sections */
+    /* background-color: transparent; /* Optional: remove distinct background if desired */
+    /* box-shadow: none; /* Optional */
+}
+#settingsScreen #redeemCodeInput { /* Already styled by .settings-section input[type="text"] */
+    text-align: center;
+}
+#settingsScreen #redeemCodeButton { /* Inherits from .settings-section button, adjust if needed */
+    background-image: linear-gradient(to bottom, #fd79a8, #e84393); /* Pink theme for redeem */
+    color: white;
+}
+#settingsScreen #redeemCodeButton:hover {
+    background-image: linear-gradient(to bottom, #ff8fbc, #f353a3);
+}
+#settingsScreen #redeemStatusMessage { margin-top: 8px; font-size: 14px; min-height: 1.2em; }
+#settingsScreen #redeemStatusMessage.success { color: #55efc4; font-weight: bold; }
+#settingsScreen #redeemStatusMessage.error { color: #ff7675; }
+
+
+/* --- Leaderboard Screen Styles --- */
+#leaderboardScreen {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background-color: rgba(30, 39, 46, 0.97);
+    padding: 25px; border-radius: 20px; text-align: center;
+    pointer-events: all; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    min-width: 600px; max-width: 800px; width: 90%;
+    height: 85vh; max-height: 700px;
+    display: flex; flex-direction: column; color: white;
+}
+#leaderboardScreen h2 { margin-top: 0; margin-bottom: 20px; color: #ff9f43; font-size: 60px; font-family: 'Bangers', cursive; }
+#leaderboardListContainer { flex-grow: 1; overflow-y: auto; background-color: rgba(0,0,0,0.2); border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+#leaderboardListContainer .leaderboard-entry { display: flex; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 18px; align-items: center;}
+#leaderboardListContainer .leaderboard-entry:last-child { border-bottom: none; }
+#leaderboardListContainer .leaderboard-entry.user-highlight { background-color: rgba(85, 239, 196, 0.2); border-left: 4px solid #55efc4; padding-left: 11px; font-weight: bold; border-radius: 0 5px 5px 0; }
+.leaderboard-rank { width: 12%; text-align: left; color: #bdc3c7; }
+.leaderboard-name { width: 58%; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.leaderboard-score { width: 30%; text-align: right; font-weight: bold; color: #feca57; }
+#leaderboardLoadingMsg { font-style: italic; color: #95a5a6; margin-top: 20px;}
+#leaderboardUserRank { padding: 15px; background-color: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px; font-size: 18px; text-align: left; }
+#leaderboardUserRank p { margin: 5px 0; }
+#leaderboardUserRank span { font-weight: bold; }
+#leaderboardUserRank button {
+    margin-top: 10px; padding: 8px 15px; font-size: 14px;
+    background-image: linear-gradient(to bottom, #74b9ff, #0984e3);
+    color: white; border: none; border-radius: 6px; cursor: pointer;
+    float: right; /* Align button to the right */
+}
+#leaderboardUserRank button:hover { background-image: linear-gradient(to bottom, #85c4ff, #0a8eff); }
+#leaderboardUserRank::after { content: ""; display: table; clear: both; } /* Clear float */
+
+
+/* --- New World High Score Popup --- */
+#newWorldHighScorePopup {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background-color: rgba(44, 62, 80, 0.97);
+    padding: 30px 40px; border-radius: 20px; text-align: center;
+    pointer-events: all; box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    min-width: 450px; max-width: 600px; z-index: 1000; color: white;
+    border: 3px solid #fdcb6e;
+}
+#newWorldHighScorePopup h2 { margin-top: 0; margin-bottom: 15px; color: #fdcb6e; font-family: 'Bangers', cursive; font-size: 50px; }
+#newWorldHighScorePopup p { font-size: 18px; line-height: 1.6; margin-bottom: 15px; }
+#championLaliPopupImage { width: 150px; height: auto; margin: 10px auto; border: 3px solid #feca57; border-radius: 10px; background-color: rgba(0,0,0,0.2); }
+#newWorldHighScorePopup button {
+    padding: 12px 25px; font-size: 18px;
+    background-image: linear-gradient(to bottom, #55efc4, #00b894);
+    color: #1e272e; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px;
+}
+#newWorldHighScorePopup button:hover {
+    background-image: linear-gradient(to bottom, #69f2d0, #00c9a2);
+}
