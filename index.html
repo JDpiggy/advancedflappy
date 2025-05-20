@@ -3,10 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flappy Lali Fart</title>
+
+    <!-- SEO Meta Tags -->
+    <title>Flappy Lali Fart - Addictive Fart-Powered Flying Game!</title>
+    <meta name="description" content="Take control of Lali and fart your way through challenging obstacles in this hilarious and addictive Flappy Bird style game. Collect beans for fuel, unlock new characters, and aim for the top of the leaderboard!">
+    <meta name="keywords" content="flappy lali fart, flappy bird game, fart game, html5 game, javascript game, browser game, arcade game, funny game, lali, high score game, mobile game, free game">
+    <meta name="author" content="Your Name/Studio Here"> <!-- CHANGE THIS -->
+
+    <!-- Open Graph (for social sharing - Facebook, LinkedIn etc.) -->
+    <meta property="og:title" content="Flappy Lali Fart - Play Now!">
+    <meta property="og:description" content="Hilarious fart-powered flying game! Dodge obstacles, collect beans, and unlock Lali characters.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-game-url.com"> <!-- REPLACE with your actual game URL when deployed -->
+    <meta property="og:image" content="https://your-game-url.com/assets/tiles/lali_classic.png"> <!-- REPLACE with a URL to a good preview image -->
+    <meta property="og:site_name" content="Flappy Lali Fart">
+
+    <!-- Twitter Card (for Twitter sharing) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flappy Lali Fart - Play Now!">
+    <meta name="twitter:description" content="Hilarious fart-powered flying game! Dodge obstacles, collect beans, and unlock Lali characters.">
+    <meta name="twitter:image" content="https://your-game-url.com/assets/tiles/lali_classic.png"> <!-- REPLACE with a URL to a good preview image -->
+    <!-- <meta name="twitter:site" content="@yourTwitterHandle"> --> <!-- Optional: Your Twitter handle -->
+
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://github.com/JDpiggy/advancedflappy/blob/main/assets/tiles/favicon-32x32.png"
-        type=image/png">
+    <link rel="icon" href="https://github.com/JDpiggy/advancedflappy/blob/main/assets/tiles/favicon-32x32.png" type="image/png">
 </head>
 <body>
     <div class="game-container">
@@ -25,12 +45,12 @@
                 <h1>Flappy Lali Fart</h1>
                 <button id="startButton">Start Game</button>
                 <button id="shopButton">Character Shop</button>
-                <button id="leaderboardButton">Leaderboard</button> <!-- New -->
-                <button id="settingsButton">Settings</button>     <!-- New -->
-                <!-- Redeem code section removed from here -->
+                <button id="leaderboardButton">Leaderboard</button>
+                <button id="settingsButton">Settings</button>
             </div>
 
             <div id="shopScreen" style="display: none;">
+                <!-- ... (your existing shop screen code) ... -->
                 <div id="shopHeader">
                     <h2>Character Shop</h2>
                     <div id="shopCoinDisplay">Coins: <span id="shopCoinCount">0</span></div>
@@ -45,10 +65,11 @@
                         <p id="shopCharacterPriceStatus">Details will appear here.</p>
                     </div>
                 </div>
-                <button id="backToMenuButtonFromShop">Back to Menu</button> <!-- Renamed for clarity -->
+                <button id="backToMenuButtonFromShop">Back to Menu</button>
             </div>
 
             <div id="gameOverScreen" style="display: none;">
+                <!-- ... (your existing game over screen code) ... -->
                 <h2>Game Over!</h2>
                 <div class="score-info-box">
                     <p>Final Score: <span id="finalScore">0</span></p>
@@ -58,8 +79,8 @@
                 <button id="restartButton">Play Again</button>
             </div>
 
-            <!-- NEW: Settings Screen -->
             <div id="settingsScreen" style="display: none;">
+                <!-- ... (your existing settings screen code) ... -->
                 <h2>Settings</h2>
                 <div class="settings-section">
                     <label for="displayNameInput">Display Name:</label>
@@ -76,7 +97,7 @@
                     <label for="sfxVolumeSlider">SFX:</label>
                     <input type="range" id="sfxVolumeSlider" min="0" max="1" step="0.01" value="1">
                 </div>
-                <div id="redeemCodeSection" class="settings-section"> <!-- Moved Redeem Code -->
+                <div id="redeemCodeSection" class="settings-section">
                     <h3>Redeem Code</h3>
                     <input type="text" id="redeemCodeInput" placeholder="Enter Code">
                     <button id="redeemCodeButton">Redeem</button>
@@ -85,11 +106,10 @@
                 <button id="backToMenuButtonFromSettings">Back to Menu</button>
             </div>
 
-            <!-- NEW: Leaderboard Screen -->
             <div id="leaderboardScreen" style="display: none;">
+                <!-- ... (your existing leaderboard screen code) ... -->
                 <h2>World Leaderboard</h2>
                 <div id="leaderboardListContainer">
-                    <!-- Scores will be populated by JS -->
                     <p id="leaderboardLoadingMsg">Loading leaderboard...</p>
                 </div>
                 <div id="leaderboardUserRank">
@@ -99,49 +119,94 @@
                 <button id="backToMenuButtonFromLeaderboard">Back to Menu</button>
             </div>
 
-            <!-- NEW: New World High Score Popup -->
             <div id="newWorldHighScorePopup" style="display: none;">
+                <!-- ... (your existing new world high score popup code) ... -->
                 <h2>NEW WORLD RECORD!</h2>
                 <p>You are now #1 on the leaderboard!</p>
                 <p>The legendary "#1 Lali" character has been unlocked and equipped!</p>
-                <img src="assets/tiles/lali_champion.png" alt="#1 Lali" id="championLaliPopupImage"> <!-- Make sure this image exists -->
+                <img src="assets/tiles/lali_champion.png" alt="#1 Lali" id="championLaliPopupImage">
                 <button id="closeNewWorldHighScorePopup">Awesome!</button>
             </div>
 
+        </div> <!-- End of ui-overlay -->
+
+        <!-- NEW: Pause Button, Info Button and Pause Overlay -->
+        <!-- Placed inside game-container but outside ui-overlay for independent pointer events -->
+        <button id="gameInfoButton" class="game-action-button" aria-label="How to Play">?</button>
+        <button id="gamePauseButton" class="game-action-button" aria-label="Pause Game">Pause</button>
+
+        <div id="pauseOverlay" class="game-overlay-screen" style="display: none;">
+            <div class="overlay-content-box">
+                <h1>PAUSED</h1>
+                <p>Press 'P' or click Resume to continue.</p>
+                <button id="resumeGameFromOverlayButton">Resume</button>
+            </div>
+        </div>
+
+    </div> <!-- End of game-container -->
+
+    <!-- NEW: Info Modal (How to Play) -->
+    <div id="infoModal" class="modal-screen" style="display: none;">
+        <div class="modal-content-box">
+            <span class="modal-close-button">×</span>
+            <h2>How to Play: Flappy Lali Fart</h2>
+            <p>Welcome to the hilarious world of Flappy Lali Fart! Get ready to unleash some gaseous power.</p>
+
+            <h3>Objective:</h3>
+            <p>Guide Lali through an endless gauntlet of tricky science lab obstacles. Fly as far as you can to get the highest score and collect coins!</p>
+
+            <h3>Controls:</h3>
+            <ul>
+                <li><strong>Tap / Click / Spacebar / W / Arrow Up:</strong> Make Lali fart to fly upwards.</li>
+                <li><strong>P Key:</strong> Pause or Resume the game.</li>
+            </ul>
+
+            <h3>Game Elements:</h3>
+            <ul>
+                <li><strong>Lali (Your Character):</strong> Keep Lali airborne and away from obstacles. Lali's appearance can be changed in the Character Shop!</li>
+                <li><strong>Fuel (Beans):</strong> Lali needs beans to fart! Each fart consumes fuel. The fuel bar is at the bottom left. If you run out, Lali can't fart.
+                    <ul>
+                        <li>Fuel regenerates very slowly (or not at all, depending on game balance).</li>
+                        <li>Pick up <strong>Bean Power-ups</strong> (looks like a can of beans) to instantly refill your fuel.</li>
+                    </ul>
+                </li>
+                <li><strong>Obstacles (Beakers, Rulers, Bookstacks):</strong> Avoid colliding with these at all costs! Hitting them ends the game unless Lali has a shield.</li>
+                <li><strong>Shield Power-up:</strong> (Looks like a blue shield item) Grants Lali temporary invincibility, allowing you to pass through one obstacle without harm.</li>
+                <li><strong>Score:</strong> Increases for each obstacle successfully passed. Displayed at the top left.</li>
+                <li><strong>High Score:</strong> Your best score ever! Displayed at the top right.</li>
+                <li><strong>Coins:</strong> Earned based on your score when the game ends. Use coins in the Character Shop to unlock new Lali looks.</li>
+            </ul>
+
+            <h3>Tips for Success:</h3>
+            <ul>
+                <li>Master controlled, small farts (taps) rather than holding the button down.</li>
+                <li>Keep an eye on your fuel! Grab bean power-ups whenever you see them.</li>
+                <li>Sometimes, it's better to fly lower or higher to anticipate the obstacle gaps.</li>
+                <li>Practice makes perfect! The more you play, the better your timing will become.</li>
+            </ul>
+            <p>Good luck, have a blast (literally!), and may your farts be mighty!</p>
         </div>
     </div>
 
+
     <!-- Firebase SDK -->
-    <!-- You MUST replace this with the scripts from YOUR Firebase project settings -->
-    <!-- Get this from Firebase Console > Project Settings > General > Your apps > SDK setup and configuration -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <!-- If using Authentication later, add: <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script> -->
 
     <script src="firebaseConfig.js"></script>
     <script src="script.js"></script>
+    <!-- Your existing Firebase v9+ module script -->
     <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyChKOZoDgFZdxmPCARFnv4mtOQV_QHB2R8",
-    authDomain: "flappybirdlali.firebaseapp.com",
-    projectId: "flappybirdlali",
-    storageBucket: "flappybirdlali.firebasestorage.app",
-    messagingSenderId: "195855441867",
-    appId: "1:195855441867:web:f7dabb47c4b112c638604e",
-    measurementId: "G-1F9T7BFJG6"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"; // Example: Use a specific v9 version
+      // import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-analytics.js";
+      // Make sure your firebaseConfig in firebaseConfig.js is compatible or update this
+      // This example assumes firebaseConfig is globally available from firebaseConfig.js
+      if (window.firebaseConfig) {
+          const app = initializeApp(window.firebaseConfig);
+          // const analytics = getAnalytics(app); // Uncomment if you use analytics
+      } else {
+          console.error("Firebase config not found for v9 initialization!");
+      }
+    </script>
 </body>
 </html>
