@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Lali Fart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://github.com/JDpiggy/advancedflappy/blob/main/assets/tiles/favicon-32x32.png"
+        type=image/png">
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-overlay">
+            <div id="score">Score: 0</div>
+            <div id="highScore">High Score: 0</div>
+            <div id="coinDisplayContainer">
+                Coins: <span id="coinCount">0</span>
+            </div>
+            <div id="fuelBarContainer">
+                Fuel: <div id="fuelBar"></div>
+            </div>
+
+            <div id="startScreen">
+                <h1>Flappy Lali Fart</h1>
+                <button id="startButton">Start Game</button>
+                <button id="shopButton">Character Shop</button>
+                <button id="leaderboardButton">Leaderboard</button> <!-- New -->
+                <button id="settingsButton">Settings</button>     <!-- New -->
+                <!-- Redeem code section removed from here -->
+            </div>
+
+            <div id="shopScreen" style="display: none;">
+                <div id="shopHeader">
+                    <h2>Character Shop</h2>
+                    <div id="shopCoinDisplay">Coins: <span id="shopCoinCount">0</span></div>
+                </div>
+                <div id="shopContent">
+                    <div id="shopPanelLeft">
+                        <!-- Character slots will be populated by JavaScript -->
+                    </div>
+                    <div id="shopPanelRight">
+                        <img id="shopCharacterPreviewImage" src="" alt="Character Preview" class="not-ready">
+                        <h3 id="shopCharacterName">Select a Character</h3>
+                        <p id="shopCharacterPriceStatus">Details will appear here.</p>
+                    </div>
+                </div>
+                <button id="backToMenuButtonFromShop">Back to Menu</button> <!-- Renamed for clarity -->
+            </div>
+
+            <div id="gameOverScreen" style="display: none;">
+                <h2>Game Over!</h2>
+                <div class="score-info-box">
+                    <p>Final Score: <span id="finalScore">0</span></p>
+                    <p>Coins Earned: <span id="coinsEarned">0</span></p>
+                    <p id="newHighScoreTextGameOver" style="display: none;">New High Score!</p>
+                </div>
+                <button id="restartButton">Play Again</button>
+            </div>
+
+            <!-- NEW: Settings Screen -->
+            <div id="settingsScreen" style="display: none;">
+                <h2>Settings</h2>
+                <div class="settings-section">
+                    <label for="displayNameInput">Display Name:</label>
+                    <input type="text" id="displayNameInput" maxlength="20">
+                    <button id="saveDisplayNameButton">Save Name</button>
+                    <p id="displayNameStatus"></p>
+                </div>
+                <div class="settings-section">
+                    <h3>Volume</h3>
+                    <label for="masterVolumeSlider">Master:</label>
+                    <input type="range" id="masterVolumeSlider" min="0" max="1" step="0.01" value="1">
+                    <label for="musicVolumeSlider">Music:</label>
+                    <input type="range" id="musicVolumeSlider" min="0" max="1" step="0.01" value="0.3">
+                    <label for="sfxVolumeSlider">SFX:</label>
+                    <input type="range" id="sfxVolumeSlider" min="0" max="1" step="0.01" value="1">
+                </div>
+                <div id="redeemCodeSection" class="settings-section"> <!-- Moved Redeem Code -->
+                    <h3>Redeem Code</h3>
+                    <input type="text" id="redeemCodeInput" placeholder="Enter Code">
+                    <button id="redeemCodeButton">Redeem</button>
+                    <p id="redeemStatusMessage" style="display: none;"></p>
+                </div>
+                <button id="backToMenuButtonFromSettings">Back to Menu</button>
+            </div>
+
+            <!-- NEW: Leaderboard Screen -->
+            <div id="leaderboardScreen" style="display: none;">
+                <h2>World Leaderboard</h2>
+                <div id="leaderboardListContainer">
+                    <!-- Scores will be populated by JS -->
+                    <p id="leaderboardLoadingMsg">Loading leaderboard...</p>
+                </div>
+                <div id="leaderboardUserRank">
+                    <p>Your Rank: <span id="userRankDisplay">-</span> | Score: <span id="userScoreDisplay">-</span> (<span id="userNameDisplay">-</span>)</p>
+                    <button id="scrollToUserButton" style="display:none;">Scroll to My Rank</button>
+                </div>
+                <button id="backToMenuButtonFromLeaderboard">Back to Menu</button>
+            </div>
+
+            <!-- NEW: New World High Score Popup -->
+            <div id="newWorldHighScorePopup" style="display: none;">
+                <h2>NEW WORLD RECORD!</h2>
+                <p>You are now #1 on the leaderboard!</p>
+                <p>The legendary "#1 Lali" character has been unlocked and equipped!</p>
+                <img src="assets/tiles/lali_champion.png" alt="#1 Lali" id="championLaliPopupImage"> <!-- Make sure this image exists -->
+                <button id="closeNewWorldHighScorePopup">Awesome!</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <!-- You MUST replace this with the scripts from YOUR Firebase project settings -->
+    <!-- Get this from Firebase Console > Project Settings > General > Your apps > SDK setup and configuration -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- If using Authentication later, add: <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script> -->
+
+    <script src="firebaseConfig.js"></script>
+    <script src="script.js"></script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyChKOZoDgFZdxmPCARFnv4mtOQV_QHB2R8",
+    authDomain: "flappybirdlali.firebaseapp.com",
+    projectId: "flappybirdlali",
+    storageBucket: "flappybirdlali.firebasestorage.app",
+    messagingSenderId: "195855441867",
+    appId: "1:195855441867:web:f7dabb47c4b112c638604e",
+    measurementId: "G-1F9T7BFJG6"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
