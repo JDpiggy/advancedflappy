@@ -379,3 +379,187 @@ canvas {
 #newWorldHighScorePopup button:hover {
     background-image: linear-gradient(to bottom, #69f2d0, #00c9a2);
 }
+
+/* ... (your existing CSS) ... */
+
+/* --- General Styles for Game Action Buttons (Pause, Info) --- */
+.game-action-button {
+    position: absolute;
+    bottom: 20px;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Bangers', cursive;
+    color: white;
+    border: 2px solid #feca57;
+    background-color: rgba(44, 62, 80, 0.8);
+    border-radius: 50%; /* Make them circular */
+    width: 50px;
+    height: 50px;
+    line-height: 1; /* For better vertical centering of text in circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 200; /* Above canvas, below popups if any */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    pointer-events: all; /* Crucial */
+}
+.game-action-button:hover {
+    background-color: #feca57;
+    color: #2c3e50;
+    transform: scale(1.1);
+}
+
+#gamePauseButton {
+    right: 20px;
+}
+
+#gameInfoButton {
+    right: 85px; /* (20px from edge + 50px width of pause + 15px gap) */
+}
+
+
+/* --- Pause Overlay Screen --- */
+.game-overlay-screen { /* More generic name than just #pauseOverlay if you add more */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex; /* To center content */
+    justify-content: center;
+    align-items: center;
+    z-index: 500; /* Above game action buttons, below modals */
+    pointer-events: all;
+    color: white;
+    text-align: center;
+}
+
+.overlay-content-box { /* For styling the text box within the overlay */
+    background-color: rgba(44, 62, 80, 0.9);
+    padding: 30px 50px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.overlay-content-box h1 {
+    font-family: 'Bangers', cursive;
+    font-size: 70px;
+    color: #ff7f50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+}
+.overlay-content-box p {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+.overlay-content-box button { /* Style for resume button on pause overlay */
+    padding: 12px 25px;
+    font-size: 18px;
+    background-image: linear-gradient(to bottom, #55efc4, #00b894);
+    color: #1e272e;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.overlay-content-box button:hover {
+    background-image: linear-gradient(to bottom, #69f2d0, #00c9a2);
+}
+
+
+/* --- Generic Modal Screen (for Info Page) --- */
+.modal-screen {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place, cover viewport */
+    z-index: 1000; /* Above everything else */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if content too tall */
+    background-color: rgba(0,0,0,0.6); /* Dimmed background */
+    pointer-events: all;
+}
+
+.modal-content-box {
+    background-color: #2c3e50; /* Dark blue-grey, fits theme */
+    color: #dfe6e9; /* Light grey text */
+    margin: 8% auto; /* Vertically somewhat centered, horizontally centered */
+    padding: 25px 35px;
+    border: 2px solid #feca57; /* Gold border */
+    border-radius: 15px;
+    width: 80%;
+    max-width: 750px; /* Max width for readability */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    position: relative; /* For positioning close button */
+}
+
+.modal-content-box h2 {
+    font-family: 'Bangers', cursive;
+    color: #ff9f43; /* Orange-gold title */
+    font-size: 48px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+.modal-content-box h3 {
+    font-family: 'Bangers', cursive;
+    color: #feca57; /* Gold sub-headings */
+    font-size: 28px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(254, 202, 87, 0.5);
+    padding-bottom: 5px;
+}
+
+.modal-content-box p, .modal-content-box li {
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+.modal-content-box ul {
+    list-style-type: disc;
+    padding-left: 30px; /* Indent list */
+}
+.modal-content-box ul ul { /* Nested lists */
+    list-style-type: circle;
+    margin-top: 5px;
+}
+.modal-content-box strong {
+    color: #55efc4; /* Mint green for emphasis */
+}
+
+.modal-close-button {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.modal-close-button:hover,
+.modal-close-button:focus {
+    color: #ff7675; /* Red on hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Ensure ui-overlay itself doesn't block pause/info buttons if they were inside it */
+/* #ui-overlay { pointer-events: none; } */ /* Already present */
+/* #ui-overlay > * { pointer-events: all; } */ /* Already implicitly true for its children */
+
+/* Adjust existing startScreen and gameOverScreen if pause/info buttons overlap */
+/* Check z-index values if anything is not appearing correctly */
+/* Your existing screens like #startScreen, #gameOverScreen etc. have pointer-events: all; */
+/* Make sure their z-index is lower than #infoModal if info can be opened from them, */
+/* or ensure info button is not active when those screens are up. */
+/* For now, info button is for game screen only. */
