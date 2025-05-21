@@ -130,8 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let charactersData = [
         { id: 'lali_classic', name: 'Lali Classic', imageSrc: 'assets/tiles/lali_classic.png', price: 0, imageObj: new Image(), isReady: false, unlocked: true },
         { id: 'lali_banana', name: 'Banana Lali', imageSrc: 'assets/tiles/banana_lali.png', price: 100, imageObj: new Image(), isReady: false, unlocked: false },
+        { id: 'lali_tung_tung', name: 'Tung Tung Lali', imageSrc: 'assets/tiles/tung_tung_tung_lali.png', price: 150, imageObj: new Image(), isReady: false, unlocked: false }, // NEW
         { id: 'lali_super', name: 'Super Lali', imageSrc: 'assets/tiles/lali_super.png', price: 200, imageObj: new Image(), isReady: false, unlocked: false },
         { id: 'lali_ninja', name: 'Ninja Lali', imageSrc: 'assets/tiles/lali_ninja.png', price: 300, imageObj: new Image(), isReady: false, unlocked: false },
+        { id: 'lali_jedi', name: 'Jedi Lali', imageSrc: 'assets/tiles/jedi_lali.png', price: 400, imageObj: new Image(), isReady: false, unlocked: false }, // NEW
         { id: 'lali_robo', name: 'Robo Lali', imageSrc: 'assets/tiles/lali_robo.png', price: 600, imageObj: new Image(), isReady: false, unlocked: false },
         { id: 'lali_golden', name: 'Golden Lali', imageSrc: 'assets/tiles/lali_golden.png', price: 1000, imageObj: new Image(), isReady: false, unlocked: false },
         { id: 'lali_kawaii', name: 'Kawaii Lali', imageSrc: 'assets/tiles/kawaii_lali.png', price: 1600, imageObj: new Image(), isReady: false, unlocked: false },
@@ -152,7 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let backgroundX = 0; // For scrolling background
     const BACKGROUND_SCROLL_SPEED_FACTOR = 0.3; // How fast background scrolls relative to gameSpeed
 
-    let assetsToLoad = charactersData.length + 3 + 1 + 1 + 1 + 1 + 1; // 8 chars + 3 obstacles + fuel + shield + music + gameover + background
+    // The `charactersData.length` will now be 10 (8 original + 2 new)
+    // So assetsToLoad will automatically account for the new character images.
+    let assetsToLoad = charactersData.length + 3 + 1 + 1 + 1 + 1 + 1;
     let assetsLoaded = 0;
 
     // --- GAMEPLAY CONSTANTS ---
@@ -751,7 +755,54 @@ document.addEventListener('DOMContentLoaded', () => {
     function buyCharacter(cId) { const cTB=getCharacterById(cId); if(cTB&&!cTB.unlocked&&!cTB.isChampionSkin&&coins>=cTB.price){coins-=cTB.price;cTB.unlocked=true;playSound(sounds.purchase);saveCoins();saveCharacterData();updateCoinDisplay();renderCharacterShop();updateShopPreview(cId);}}
 
     // --- REDEEM CODE ---
-    const redeemCodes = { "imjaron": { description: "All Lali characters unlocked!", action: () => { let uS = false; charactersData.forEach(c => { if (!c.unlocked && !c.isChampionSkin) { c.unlocked = true; uS = true; }}); if (uS) { saveCharacterData(); if (shopScreen.style.display === 'flex') { renderCharacterShop(); updateShopPreview(shopPreviewCharacterId); }} return uS; }}};
+    const redeemCodes = {
+        "imjaron": {
+            description: "All Lali characters unlocked!",
+            action: () => {
+                let unlockedSomethingNew = false;
+                charactersData.forEach(c => {
+                    if (!c.unlocked && !c.isChampionSkin) {
+                        c.unlocked = true;
+                        unlockedSomethingNew = true;
+                    }
+                });
+                if (unlockedSomethingNew) {
+                    saveCharacterData();
+                    if (shopScreen.style.display === 'flex') {
+                        renderCharacterShop();
+                        updateShopPreview(shopPreviewCharacterId);
+                    }
+                }
+                return unlockedSomethingNew;
+            }
+        },
+        "lali3215": { // NEW REDEEM CODE
+            description: "Jedi Lali and Tung Tung Lali unlocked!",
+            action: () => {
+                let unlockedSomethingNew = false;
+                const jediLali = getCharacterById('lali_jedi');
+                const tungTungLali = getCharacterById('lali_tung_tung');
+
+                if (jediLali && !jediLali.unlocked) {
+                    jediLali.unlocked = true;
+                    unlockedSomethingNew = true;
+                }
+                if (tungTungLali && !tungTungLali.unlocked) {
+                    tungTungLali.unlocked = true;
+                    unlockedSomethingNew = true;
+                }
+
+                if (unlockedSomethingNew) {
+                    saveCharacterData();
+                    if (shopScreen.style.display === 'flex') {
+                        renderCharacterShop();
+                        updateShopPreview(shopPreviewCharacterId);
+                    }
+                }
+                return unlockedSomethingNew;
+            }
+        }
+    };
     function handleRedeemCode() { if(!redeemCodeInput||!redeemStatusMessage)return; const eC=redeemCodeInput.value.trim().toLowerCase(); redeemCodeInput.value=''; if(redeemCodes[eC]){const cE=redeemCodes[eC];const succ=cE.action();if(succ){playSound(sounds.purchase);redeemStatusMessage.textContent=cE.description||"Code redeemed!";redeemStatusMessage.className='success';}else{redeemStatusMessage.textContent="Code applied, no new changes.";redeemStatusMessage.className='success';}}else{redeemStatusMessage.textContent="Invalid code.";redeemStatusMessage.className='error';} redeemStatusMessage.style.display='block'; setTimeout(()=>{if(redeemStatusMessage)redeemStatusMessage.style.display='none';},4000);}
 
     // --- GAME STATE FUNCTIONS ---
