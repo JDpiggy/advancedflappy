@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fuelPowerUpImg = new Image(); fuelPowerUpImg.src = 'assets/tiles/beans-removebg-preview.png'; fuelPowerUpImg.isReady = false;
     const shieldPowerUpImg = new Image(); shieldPowerUpImg.src = 'assets/tiles/your_shield_image.png'; shieldPowerUpImg.isReady = false;
     // --- NEW: Coin Image ---
-    const coinImg = new Image(); coinImg.src = 'assets/tiles/coin.png'; coinImg.isReady = false;
+    const coinImg = new Image(); coinImg.src = 'assets/tiles/coin2.png'; coinImg.isReady = false;
 
     const backgroundMusic = new Audio(); backgroundMusic.isReady = false;
     const gameOverSound = new Audio(); gameOverSound.isReady = false;
@@ -414,8 +414,8 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.width = 40; // Adjust based on coin.png visual size
-            this.height = 40; // Adjust based on coin.png visual size
+            this.width = 447; // Adjust based on coin.png visual size
+            this.height = 559; // Adjust based on coin.png visual size
             this.collected = false;
         }
         update() {
