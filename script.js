@@ -922,6 +922,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault(); // Prevent space from scrolling, etc.
             if (gameState === 'PLAYING' && rocket) { // Only flap if game is active
                 rocket.flap();
+                const dustY = rocket.y + rocket.height - FART_DUST_VISUAL_HEIGHT - 10;
             }
         }
     }
