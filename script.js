@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const SHIELD_DURATION = 540; // 9 seconds at 60fps
     const LOW_FUEL_THRESHOLD_PERCENT = 35; let canSpawnEmergencyBeans = true;
     const EMERGENCY_BEANS_COOLDOWN_FRAMES = 180; let emergencyBeansCooldownTimer = 0; // 3 seconds cooldown
-    const OBSTACLE_SPEED_INITIAL = 2.6; const SPEED_INCREMENT = 0.07;
+    const OBSTACLE_SPEED_INITIAL = 2.6; const SPEED_INCREMENT = 0.05;
     const SPEED_INCREMENT_OBSTACLE_COUNT = 10; const MAX_SPEED_OBSTACLE_THRESHOLD = 100; // After 100 obstacles, speed maxes out
     const MAX_SPEED_MULTIPLIER = 1.5; const MAX_GAME_SPEED = OBSTACLE_SPEED_INITIAL * MAX_SPEED_MULTIPLIER;
     const INITIAL_OBSTACLE_X_POSITION_FACTOR = 0.65; // Where the first obstacle spawns (65% of screen width)
