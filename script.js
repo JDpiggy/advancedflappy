@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rulerObstacleImg = new Image(); rulerObstacleImg.src = 'assets/tiles/ruler_obstacle.png'; rulerObstacleImg.isReady = false;
     const bookstackObstacleImg = new Image(); bookstackObstacleImg.src = 'assets/tiles/bookstack_obstacle.png'; bookstackObstacleImg.isReady = false;
     const fuelPowerUpImg = new Image(); fuelPowerUpImg.src = 'assets/tiles/beans-removebg-preview.png'; fuelPowerUpImg.isReady = false;
-    const shieldPowerUpImg = new Image(); shieldPowerUpImg.src = 'assets/tiles/your_shield_image.png'; shieldPowerUpImg.isReady = false;=
+    const shieldPowerUpImg = new Image(); shieldPowerUpImg.src = 'assets/tiles/your_shield_image.png'; shieldPowerUpImg.isReady = false;
     const coinImg = new Image(); coinImg.src = 'assets/tiles/coin2.png'; coinImg.isReady = false;
 
     const backgroundMusic = new Audio(); backgroundMusic.isReady = false;
