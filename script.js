@@ -161,8 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rulerObstacleImg = new Image(); rulerObstacleImg.src = 'assets/tiles/ruler_obstacle.png'; rulerObstacleImg.isReady = false;
     const bookstackObstacleImg = new Image(); bookstackObstacleImg.src = 'assets/tiles/bookstack_obstacle.png'; bookstackObstacleImg.isReady = false;
     const fuelPowerUpImg = new Image(); fuelPowerUpImg.src = 'assets/tiles/beans-removebg-preview.png'; fuelPowerUpImg.isReady = false;
-    const shieldPowerUpImg = new Image(); shieldPowerUpImg.src = 'assets/tiles/your_shield_image.png'; shieldPowerUpImg.isReady = false;
-    // --- NEW: Coin Image ---
+    const shieldPowerUpImg = new Image(); shieldPowerUpImg.src = 'assets/tiles/your_shield_image.png'; shieldPowerUpImg.isReady = false;=
     const coinImg = new Image(); coinImg.src = 'assets/tiles/coin2.png'; coinImg.isReady = false;
 
     const backgroundMusic = new Audio(); backgroundMusic.isReady = false;
@@ -414,8 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor(x, y) {
             this.x = x;
             this.y = y;
-            this.width = 447; // Adjust based on coin.png visual size
-            this.height = 559; // Adjust based on coin.png visual size
+            this.width = 80; 
+            this.height = 90; 
             this.collected = false;
         }
         update() {
