@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const OBSTACLE_VERTICAL_MOVEMENT_MAX_OFFSET = 60; const OBSTACLE_VERTICAL_SPEED = 0.45;
     const OBSTACLE_TYPES = {
         beaker:    { img: beakerObstacleImg,    visualWidth: 120, effectiveWidth: 10,  hitboxInsetX: 15, hitboxInsetYGapEdge: 30 },
-        ruler:     { img: rulerObstacleImg,     visualWidth: 60,  effectiveWidth: 112,  hitboxInsetX: 5,  hitboxInsetYGapEdge: 20  },
+        ruler:     { img: rulerObstacleImg,     visualWidth: 60,  effectiveWidth: 12,  hitboxInsetX: 5,  hitboxInsetYGapEdge: 20  },
         bookstack: { img: bookstackObstacleImg, visualWidth: 150, effectiveWidth: 120, hitboxInsetX: 25, hitboxInsetYGapEdge: 100 }
     };
     const SHIELD_POWERUP_SIZE = 70; const FUEL_POWERUP_SIZE = 100;
