@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentlyPlayingFuelEmptySound = null;
     const sounds = {
-        flap: new Audio('assets/sounds/fart.wav'),
+        flap: new Audio('assets/sounds/fart91011.mp3'),
         score: new Audio('assets/sounds/score.wav'),
         hit: new Audio('assets/sounds/hit.wav'),
         powerup: new Audio('assets/sounds/powerup.wav'),
