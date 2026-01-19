@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawStartScreenCharacter(bobOffset) { const gC = getCurrentGameCharacter(); if (!gC || !gC.isReady || !ctx) return; const charImg = gC.imageObj; const scaleFactor = 2.8; const boxW_target = ROCKET_WIDTH * scaleFactor; const boxH_target = ROCKET_HEIGHT * scaleFactor; const boxX_corner = GAME_WIDTH * 0.80 - boxW_target / 2; const boxY_corner = GAME_HEIGHT / 2 - boxH_target / 2 + bobOffset; if (charImg.complete && charImg.naturalWidth !== 0 && charImg.naturalHeight !== 0) { const imgW = charImg.naturalWidth; const imgH = charImg.naturalHeight; const boxAspectRatio = boxW_target / boxH_target; const imgAspectRatio = imgW / imgH; let drawWidth, drawHeight; if (imgAspectRatio > boxAspectRatio) { drawWidth = boxW_target; drawHeight = drawWidth / imgAspectRatio; } else { drawHeight = boxH_target; drawWidth = drawHeight * imgAspectRatio; } const drawX = boxX_corner + (boxW_target - drawWidth) / 2; const drawY = boxY_corner + (boxH_target - drawHeight) / 2; ctx.drawImage(charImg, drawX, drawY, drawWidth, drawHeight); } else { ctx.fillStyle = 'grey'; ctx.fillRect(boxX_corner, boxY_corner, boxW_target, boxH_target); } }
     function startScreenAnimationLoop() { if (gameState !== 'START' || !isStartScreenLoopRunning || (startScreen && startScreen.style.display === 'none') ) { isStartScreenLoopRunning = false; return; } if(ctx){ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT); drawBackground();} startScreenAnimFrame++; const bO = Math.sin(startScreenAnimFrame*startScreenCharBobSpeed)*startScreenCharYOffsetMax; drawStartScreenCharacter(bO); requestAnimationFrame(startScreenAnimationLoop); }
 
-    // --- DATA PERSISTENCE (localStorage) (MODIFIED for Lali unlocks) ---
+    // --- DATA PERSISTENCE (localStorage) (MODIFIED for Lali s) ---
     function loadGameData() {
         loadSettings();
         coins = parseInt(localStorage.getItem('flappyLaliCoins_v2'))||0;
@@ -466,9 +466,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentSelectedCharacterId = localStorage.getItem('flappyLaliSelectedChar_v2')||'lali_classic';
         shopPreviewCharacterId = currentSelectedCharacterId;
 
-        // Unlock Lalis based on current high score first
+        //  Lalis based on current high score first
         charactersData.forEach(char => {
-            if (char.unlockScore && char.unlockScore > 0 && highScore >= char.unlockScore) {
+            if (char.Score && char.unlockScore > 0 && highScore >= char.unlockScore) {
                 char.unlocked = true;
             }
         });
@@ -547,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const redeemCodes = { /* ... (redeemCodes object remains the same) ... */
         "imjaron": { description: "All Lali characters unlocked!", action: () => { let unlockedSomethingNew = false; charactersData.forEach(c => { if (!c.unlocked && !c.isChampionSkin && !(c.unlockScore && c.unlockScore > 0) ) { c.unlocked = true; unlockedSomethingNew = true; }}); if (unlockedSomethingNew) { saveCharacterData(); if (shopScreen.style.display === 'flex') { renderCharacterShop(); updateShopPreview(shopPreviewCharacterId); }} return unlockedSomethingNew; }},
         "lali3215": { description: "Jedi Lali and Tung Tung Lali unlocked!", action: () => { let unlockedSomethingNew = false; const jediLali = getCharacterById('lali_jedi'); const tungTungLali = getCharacterById('lali_tung_tung'); if (jediLali && !jediLali.unlocked) { jediLali.unlocked = true; unlockedSomethingNew = true; } if (tungTungLali && !tungTungLali.unlocked) { tungTungLali.unlocked = true; unlockedSomethingNew = true; } if (unlockedSomethingNew) { saveCharacterData(); if (shopScreen.style.display === 'flex') { renderCharacterShop(); updateShopPreview(shopPreviewCharacterId); }} return unlockedSomethingNew; }}
+        "WILSON!": { description: "Mr. Wilson unlocked!", action: () => { let unlockedSomethingNew = false; const wilsonLali = getCharacterById('lali_wilson'); if (wilsonLali && !wilsonLali.unlocked) { wilsonLali.unlocked = true; unlockedSomethingNew = true; } if (unlockedSomethingNew) { saveCharacterData(); if (shopScreen.style.display === 'flex') { renderCharacterShop(); updateShopPreview(shopPreviewCharacterId); }} return unlockedSomethingNew; }}
     };
     function handleRedeemCode() { if(!redeemCodeInput||!redeemStatusMessage)return; const eC=redeemCodeInput.value.trim().toLowerCase(); redeemCodeInput.value=''; if(redeemCodes[eC]){const cE=redeemCodes[eC];const succ=cE.action();if(succ){playSound(sounds.purchase);redeemStatusMessage.textContent=cE.description||"Code redeemed!";redeemStatusMessage.className='success';}else{redeemStatusMessage.textContent="Code applied, no new changes.";redeemStatusMessage.className='success';}}else{redeemStatusMessage.textContent="Invalid code.";redeemStatusMessage.className='error';} redeemStatusMessage.style.display='block'; setTimeout(()=>{if(redeemStatusMessage)redeemStatusMessage.style.display='none';},4000);}
 
