@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- CHARACTER DATA & ASSET PATHS (MODIFIED for new Lalis) ---
     let charactersData = [
         { id: 'lali_classic', name: 'Lali Classic', imageSrc: 'assets/tiles/lali_classic.png', price: 0, unlockScore: 0, imageObj: new Image(), isReady: false, unlocked: true },
-        { id: 'lali_wilson', name: 'Mr. Wilson', imageSrc: 'assets/tiles/Wilfar.png', price: 0, unlockScore: 0, imageObj: new Image(), isReady: false, unlocked: true },
+        { id: 'lali_wilson', name: 'Mr. Wilson', imageSrc: 'assets/tiles/Wilfar.png', price: 80, unlockScore: 0, imageObj: new Image(), isReady: false, unlocked: false },
         { id: 'lali_banana', name: 'Banana Lali', imageSrc: 'assets/tiles/banana_lali.png', price: 100, unlockScore: 0, imageObj: new Image(), isReady: false, unlocked: false },
         { id: 'lali_tung_tung', name: 'Tung Tung Lali', imageSrc: 'assets/tiles/tung_tung_tung_lali.png', price: 150, unlockScore: 0, imageObj: new Image(), isReady: false, unlocked: false },
         { id: 'lali_super', name: 'Super Lali', imageSrc: 'assets/tiles/lali_super.png', price: 200, unlockScore: 0, imageObj: new Image(), isReady: false, unlocked: false },
